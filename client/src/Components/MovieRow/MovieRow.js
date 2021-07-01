@@ -33,10 +33,7 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
     if (path === "poster_path") {
         return (
             <div className="category-row ms-4 mt-2">
-                <h2 className="m-2" style={{
-                    position: "relative",
-                    textShadow: '2px 2px rgba(80, 80, 100, 1)'
-                }}>{category}</h2>
+                <h2 className="m-2 category-text">{category}</h2>
                 <div className="poster-row">
                     
                 {movies.length > 0 &&
@@ -76,7 +73,9 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
                                                 <p className="movie-desc">{movie.overview}</p>
                                             </div>
                                         </div>
-                                       
+                                        <div className="movie-blur">
+                                            
+                                        </div>
                                         <img key={id} className="poster-img-lg" src={IMG_API + movie[path]} alt={movie.title} />
                                     </div>
                                 </div>
@@ -86,15 +85,18 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
                     })
                 }
             </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+            
+            <div className="d-flex flex-direction-row justify-space-between">
+                <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            
 
         </div>
     )

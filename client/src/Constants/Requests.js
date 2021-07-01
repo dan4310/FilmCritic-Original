@@ -1,4 +1,6 @@
-const API_KEY = "3ad4aa0883a012ca4f7ceaed2b983305";
+import secrets from './secrets';
+const API_KEY = secrets.theMovieDBAPIKey;
+
 const DISCOVER_URL = "https://api.themoviedb.org/3/discover/movie?api_key=" + API_KEY;
 
 const requests = {

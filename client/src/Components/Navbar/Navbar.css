@@ -3,7 +3,10 @@
   color: rgba(225, 202, 240, 1);
 
   font-weight: 600;
-  font-size: 25px;
+}
+
+.nav-container {
+  padding: 0;
 }
 
 .btn-login {
@@ -14,10 +17,16 @@
   padding-right: 10px;
   padding-left: 10px;
   color: white;
-  text-shadow: 2px 2px rgba(80, 80, 100, 1);
-  font-size: 20px;
+  text-shadow: 1px 1px rgba(80, 80, 100, 1);
+  font-size: 14px;
   font-weight: 500;
+  border: 2px solid transparent;
 }
+.btn-login:hover {
+  border-color: white;
+  box-shadow: 4px 4px rgba(29, 29, 35, 1);
+}
+
 .btn-small {
   background: none;
   border: none;
@@ -30,11 +39,59 @@
   font-size: 14px;
   font-weight: 500;
 }
-.btn-small:hover {
+.btn-small:hover,
+.nav-icon:hover {
   border: 2px solid white;
 }
 .btn-small:active,
-.btn-small:focus {
+.btn-small:focus,
+.nav-icon:active,
+.nav-icon:focus {
   border-color: rgba(225, 202, 240, 1);
   color: rgba(225, 202, 240, 1);
+}
+
+.nav-icon {
+  color: white;
+  border-radius: 3px;
+  border: 2px solid transparent;
+  font-size: 15px;
+  padding: 6px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.navbar-toggler {
+  color: none;
+}
+.navbar-toggler:active {
+  box-shadow: none;
+}
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.xs-hidden {
+  display: none;
+}
+
+.navbar-collapse {
+  background-color: rgba(62, 62, 77, 1);
+  border-top: 2px solid rgba(80, 80, 100, 1);
+}
+
+@media screen and (min-width: 768px) {
+  .xs-hidden {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .logo {
+    font-size: 25px;
+  }
+
+  .nav-icon {
+    font-size: 25px;
+  }
 }

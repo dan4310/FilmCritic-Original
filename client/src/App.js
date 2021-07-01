@@ -1,46 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
-import MovieRow  from './Components/MovieRow/MovieRow';
-import requests from './Constants/Requests';
+import HomePage from './Pages/HomePage';
+import RegisterPage from './Pages/RegisterPage';
+import LoginPage from './Pages/LoginPage';
 import Navbar  from './Components/Navbar/Navbar';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 
 function App() {
 
   return (
-    <div className="App">
-      <Navbar/>
-
-        <div style={{
-          background: 'rgba(29, 29, 35, 1)',
-          }}>
-        <MovieRow backdrop fetchUrl={requests.fetchPopular.url} category="Trending"/>
-
-          <div style={{
-            
-          }}>
-
-            {
-              Object.keys(requests).map((req, id) => {
-                return (
-                  <div className={id !== 0 ? "movie-row" : "movie-row-1"} style={{
-                    position: "relative",
-                    bottom: '10rem',
-                  }}>
-                    <MovieRow key={id} fetchUrl={requests[req].url} category={requests[req].name}/>
-                  </div>
-                )
-              })
-            }
-            
-          </div>
-
-         
-          
-
+    <Router>
+      <div className="App">
+        <Navbar/>
+        <div className="content-page" style={{
+          background: 'rgba(29, 29, 35, 1)'
+        }}>
+          <Switch>
+            <Route exact path="/">
+              <HomePage/>
+            </Route>
+            <Route path="/login">
+              <LoginPage/>
+            </Route>
+            <Route path="/register">
+              <RegisterPage/>
+            </Route>
+            <Route path="/login">
+              <LoginPage/>
+            </Route>
+          </Switch>
         </div>
-        
-    </div>
+      </div>
+    </Router>
+    
   );
 }
 

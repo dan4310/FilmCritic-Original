@@ -1,0 +1,16 @@
+.form-control {
+  border: none;
+  border: 2px solid transparent;
+}
+
+.form-control:hover,
+.form-control:focus {
+  box-shadow: 4px 4px rgba(29, 29, 35, 1);
+  border: 2px solid rgba(225, 202, 240, 1);
+}
+
+.form-label {
+  font-size: 18px;
+  color: white;
+  text-shadow: 2px 2px rgba(29, 29, 35, 1);
+}
