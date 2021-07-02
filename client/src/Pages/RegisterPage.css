@@ -14,3 +14,7 @@
   color: white;
   text-shadow: 2px 2px rgba(29, 29, 35, 1);
 }
+
+.form-title {
+  font-size: 25px;
+}

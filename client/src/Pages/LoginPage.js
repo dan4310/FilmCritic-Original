@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import Axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { 
+    setIsLoggedIn,
+    setFirstName,
+    setLastName,
+    setUsername as setGlobalUsername,
+    setPassword,
+    setEmail,
+    setUser
+ } from './../features/authentication/authSlice'
 
 const LoginPage = () => {
+    const history = useHistory();
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+    const dispatch = useDispatch();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -11,7 +25,13 @@ const LoginPage = () => {
             username: username,
             password: password,
         }).then((response) => {
-            console.log(response);
+            if (response.data.message) {
+                console.log(response.data.message);
+            } else {
+                console.log(response.data);
+                dispatch(setUser(response.data));
+                history.push("/");
+            }
         });
     };
 
@@ -20,13 +40,14 @@ const LoginPage = () => {
             background: 'rgba(29, 29, 35, 1)',
             paddingBottom: '5rem',
             paddingTop: '5rem',
-            height: '100vh'
         }}>
             <div className="container-fluid px-4">
-                <h1 className="py-2" style={{
+                <h1 className="py-2 form-title" style={{
                     fontSize: '48px',
                     textShadow: '4px 4px rgba(80, 80, 100, 1)',
                 }}>Login</h1>
+                
+
                 <form className="container-fluid py-3" style={{
                     backgroundColor: 'rgba(80, 80, 100, 1)',
                     borderTop: '4px solid rgba(225, 202, 240, 1)',
@@ -34,7 +55,7 @@ const LoginPage = () => {
                     borderRadius: '3px',
                 }}>
                 <div className="mb-3">
-                    <label htmlFor="exampleInputUsername1" className="form-label d-flex">Username *</label>
+                    <label htmlFor="exampleInputUsername1" className="form-label">Username *</label>
                     <input type="username" className="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp"
                         onChange={(e) => {
                             setUsername(e.target.value);
@@ -51,12 +72,20 @@ const LoginPage = () => {
                         />
                     </div>
                 
-                <button type="button" className="btn-login me-auto"
+                <button type="button" className="btn-login draw meet"
                     onClick={login}
                 >Login</button>
                 </form>
-                
-            </div>
+
+                <label className="form-label ms-2 mt-2">Don't have an account? Become a critic <Link to="/register"
+                    style={{
+                        textDecoration: 'none',
+                        color: "rgba(225, 202, 240, 1)",
+                        borderBottom: '2px solid rgba(80, 80, 100, 1)'
+                    }}
+                >here.</Link></label>
+
+            </div> 
         </div>
     )
 }

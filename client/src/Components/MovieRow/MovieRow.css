@@ -45,6 +45,7 @@
   object-fit: contain;
   width: 150px;
   transition: transform 450ms;
+  box-shadow: 3px 3px 10px black;
 }
 
 .poster-img-lg {
@@ -55,7 +56,7 @@
 .movie-info-container {
   position: absolute;
   top: 4rem;
-  left: 2rem;
+  left: 1.5rem;
 }
 
 .movie-title-container {
@@ -105,7 +106,7 @@
 .movie-blur {
   position: absolute;
   width: 100vw;
-  height: 10rem;
+  height: 50vw;
   bottom: 0;
   background: -webkit-linear-gradient(
     rgba(0, 0, 0, 0) 0%,
@@ -127,18 +128,28 @@
 }
 
 .carousel-control-prev-icon {
-  margin-top: 5rem;
-  margin-left: -5rem;
+  display: none;
 }
 .carousel-control-next-icon {
-  margin-top: 5rem;
-  margin-right: -5rem;
+  display: none;
 }
 
 @media screen and (min-width: 768px) {
   .movie-info-container {
     top: 6rem;
     max-width: 45vw;
+  }
+
+  .carousel-control-next-icon {
+    margin-top: 5rem;
+    margin-right: -5rem;
+    display: flex;
+  }
+
+  .carousel-control-prev-icon {
+    margin-top: 5rem;
+    margin-right: 5rem;
+    display: flex;
   }
 
   .movie-title {

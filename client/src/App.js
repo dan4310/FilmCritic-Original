@@ -14,7 +14,8 @@ function App() {
       <div className="App">
         <Navbar/>
         <div className="content-page" style={{
-          background: 'rgba(29, 29, 35, 1)'
+          background: 'rgba(29, 29, 35, 1)',
+          height: '100vh'
         }}>
           <Switch>
             <Route exact path="/">

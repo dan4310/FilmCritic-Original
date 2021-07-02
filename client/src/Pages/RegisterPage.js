@@ -14,13 +14,13 @@ const RegisterPage = () => {
     const register = () => {
         if (password === confirmPassword) {
             Axios.post('http://localhost:3001/register', {
-            username: username,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-            email: email
+                username: username,
+                password: password,
+                firstName: firstName,
+                lastName: lastName,
+                email: email
             }).then((response) => {
-            console.log(response);
+                console.log(response);
             });
         }
         
@@ -33,10 +33,10 @@ const RegisterPage = () => {
             paddingTop: '5rem',
         }}>
             <div className="container-fluid px-4">
-                <h1 className="py-2" style={{
+                <h1 className="py-2 form-title" style={{
                     fontSize: '48px',
                     textShadow: '4px 4px rgba(80, 80, 100, 1)',
-                }}>Register</h1>
+                }}>Create an account</h1>
                 <form className="container-fluid py-3" style={{
                     backgroundColor: 'rgba(80, 80, 100, 1)',
                     borderTop: '4px solid rgba(225, 202, 240, 1)',
@@ -104,7 +104,7 @@ const RegisterPage = () => {
                     </div>
                 </div>
                 
-                <button type="submit" className="btn-login me-auto"
+                <button type="submit" className="btn-login draw meet"
                     onClick={register}
                 >Register</button>
                 </form>

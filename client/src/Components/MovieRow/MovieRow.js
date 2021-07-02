@@ -11,7 +11,6 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
     useEffect(() => {
         fetch(fetchUrl).then(res => res.json())
         .then(data => {
-          console.log(data.results);
           setMovies(data.results);
         });
       }, [fetchUrl])
@@ -33,7 +32,7 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
     if (path === "poster_path") {
         return (
             <div className="category-row ms-4 mt-2">
-                <h2 className="m-2 category-text">{category}</h2>
+                <h2 className="category-text">{category}</h2>
                 <div className="poster-row">
                     
                 {movies.length > 0 &&
@@ -45,7 +44,7 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
                                 }}>
                                     {movie.vote_average === 0 ? "NA" : movie.vote_average}
                                 </div>
-                                <img key={id} className="poster-img m-2" src={IMG_API + movie[path]} alt={movie.title} />
+                                <img key={id} className="poster-img m-3 ms-0" src={IMG_API + movie[path]} alt={movie.title} />
                             </div>)
                         }
                         
