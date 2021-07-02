@@ -3,11 +3,13 @@ import './App.css';
 import HomePage from './Pages/HomePage';
 import RegisterPage from './Pages/RegisterPage';
 import LoginPage from './Pages/LoginPage';
+import MoviePage from './Pages/MoviePage';
 import Navbar  from './Components/Navbar/Navbar';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
 
 function App() {
+
 
   return (
     <Router>
@@ -21,15 +23,14 @@ function App() {
             <Route exact path="/">
               <HomePage/>
             </Route>
-            <Route path="/login">
+            <Route exact path="/login">
               <LoginPage/>
             </Route>
-            <Route path="/register">
+            <Route exact path="/register">
               <RegisterPage/>
             </Route>
-            <Route path="/login">
-              <LoginPage/>
-            </Route>
+            <Route exact path="/movie/:movieId/:name" component={MoviePage}/>
+            <Redirect to="/"/>
           </Switch>
         </div>
       </div>

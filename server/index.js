@@ -23,16 +23,32 @@ app.post('/register', (req, res) => {
     const email = req.body.email;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
+    const created = req.body.created;
 
     bcrypt.hash(password, SALT_ROUNDS, (err, hash) => {
         if (err) {
             console.log(err);
         }
 
-        db.query("INSERT INTO users (username, password, email, firstName, lastName) VALUES (?, ?, ?, ?, ?)",
-        [username, hash, email, firstName, lastName],
+        db.query("INSERT INTO users (username, password, email, firstName, lastName, created) VALUES (?, ?, ?, ?, ?, ?)",
+        [username, hash, email, firstName, lastName, created],
         (err, result) => {
-            console.log(err);
+            if (err) {
+                switch (err.errno) {
+                    case 1062: 
+                        res.send({ success: false, message: "User already exists!" } );
+                        break;
+                    default:
+                        res.send({ success: false, message: err.sqlMessage });
+                }
+            } else {
+                db.query("SELECT * FROM users WHERE username = ?;",
+                username,
+                (e, r) => {
+                    res.send({ success: true, user: r[0]});
+                });
+                
+            }
         });
     });
 

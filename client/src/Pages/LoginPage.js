@@ -10,7 +10,7 @@ import {
     setPassword,
     setEmail,
     setUser
- } from './../features/authentication/authSlice'
+ } from './../features/authentication/authSlice';
 
 const LoginPage = () => {
     const history = useHistory();
@@ -28,7 +28,6 @@ const LoginPage = () => {
             if (response.data.message) {
                 console.log(response.data.message);
             } else {
-                console.log(response.data);
                 dispatch(setUser(response.data));
                 history.push("/");
             }

@@ -52,34 +52,34 @@ const Navbar = () => {
           
           
           
-          <button className="btn-small draw meet mx-1 mx-md-0">
-            <i className="fa fa-ticket nav-icon" aria-hidden="true"></i>
-          </button> 
+          
          
-         { !isLoggedIn &&
-          <Link to="/register" style={{
-            textDecoration: 'none'
-          }}>
-            <button className="btn-small draw meet mx-2 xs-hidden">
-              Sign Up
-            </button>
-          </Link>
-
-          }
           { !isLoggedIn ?
+            <>
+              <Link to="/register" style={{
+                textDecoration: 'none'
+              }}>
+                <button className="btn-small draw meet mx-2 xs-hidden">
+                  Sign Up
+                </button>
+              </Link>
               <Link to="/login" style={{
                 textDecoration: 'none'
               }}>
                   <button className="btn-login draw meet">
                       Login
                   </button>
-              </Link>
+              </Link></>
             :
+            <>
+            <button className="btn-small draw meet mx-1 mx-md-0">
+              <i className="fa fa-ticket nav-icon" aria-hidden="true"></i>
+            </button> 
             <Link to="/profile" className="navbar-brand me-0 ms-0">
               <button className="btn-large draw meet">
                 <div className="username">{user.firstName || user.username}</div>
               </button>
-            </Link>
+            </Link></>
           }
           
 

@@ -4,12 +4,15 @@ export const authSlice = createSlice({
     name: 'user',
     initialState: {
         isLoggedIn: false,
-        user: {id: -1,
+        user: {
+            id: -1,
             firstName: '',
             lastName: '',
             username: '',
             password: '',
-            email: ''}
+            email: '',
+            created: '',
+        }
 
     },
     reducers: {
@@ -27,6 +30,9 @@ export const authSlice = createSlice({
         },
         setEmail: (state, action) => {
             state.user.email = action.payload;
+        },
+        setCreated: (state, action) => {
+            state.user.created = action.payload;
         },
         setUser: (state, action) => {
             if (action.payload === null) {

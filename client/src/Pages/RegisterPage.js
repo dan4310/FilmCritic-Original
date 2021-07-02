@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Axios from 'axios';
 import './RegisterPage.css'
+import { 
+    setUser
+ } from './../features/authentication/authSlice'
+import { useHistory } from 'react-router-dom';
 
 const RegisterPage = () => {
+    const history = useHistory();
+    const dispatch = useDispatch();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -12,16 +19,30 @@ const RegisterPage = () => {
     const [lastName, setLastName] = useState('');
 
     const register = () => {
-        if (password === confirmPassword) {
-            Axios.post('http://localhost:3001/register', {
-                username: username,
-                password: password,
-                firstName: firstName,
-                lastName: lastName,
-                email: email
-            }).then((response) => {
-                console.log(response);
-            });
+        if (password === confirmPassword && password.length > 0) {
+            if (username.length > 0) {
+                Axios.post('http://localhost:3001/register', {
+                    username: username,
+                    password: password,
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    created: new Date().toISOString().slice(0, 19).replace('T', ' ')
+                }).then((response, err) => {
+                    if (response.data.success === false) {
+                        console.log(response.data.message);
+                    } else {
+                        console.log(response.data.user);
+                        dispatch(setUser(response.data.user));
+                        history.push("/");
+                    }
+                });
+            } else {
+                console.log("Must enter a username!");
+            }
+            
+        } else {
+            console.log("Passwords do not match!");
         }
         
     };
@@ -104,7 +125,7 @@ const RegisterPage = () => {
                     </div>
                 </div>
                 
-                <button type="submit" className="btn-login draw meet"
+                <button type="button" className="btn-login draw meet"
                     onClick={register}
                 >Register</button>
                 </form>

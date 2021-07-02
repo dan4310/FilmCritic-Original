@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import Rating from '../Rating/Rating';
 
 import './MovieRow.css';
 
@@ -15,18 +18,6 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
         });
       }, [fetchUrl])
 
-    const ratingColor = (rating) => {
-        if (rating <= 0) {
-            return "white";
-        } else if (rating <= 5) {
-            return "red";
-        } else if (rating <= 8) {
-            return "orange";
-        } else {
-            return "lightgreen";
-        }
-    }
-
       const path = backdrop ? "backdrop_path" : "poster_path";
 
     if (path === "poster_path") {
@@ -38,14 +29,18 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
                 {movies.length > 0 &&
                     movies.map((movie, id) => {
                         if (movie[path]){
-                            return (<div className="poster">
-                                <div className="rating-container" style={{
-                                    color: ratingColor(movie.vote_average)
-                                }}>
-                                    {movie.vote_average === 0 ? "NA" : movie.vote_average}
-                                </div>
-                                <img key={id} className="poster-img m-3 ms-0" src={IMG_API + movie[path]} alt={movie.title} />
-                            </div>)
+                            return (<Link to={{
+                                pathname: '/movie/'+movie.id+'/'+movie.title,
+                            }}>
+                            <div className="poster">
+                                <Rating score={movie.vote_average} style={{
+                                    position: 'absolute',
+                                    right: 0,
+                                    bottom: 0,
+                                }}></Rating>
+                                <img key={id} className="poster-img m-2" src={IMG_API + movie[path]} alt={movie.title} />
+                            </div>
+                            </Link>)
                         }
                         
                     })
@@ -56,7 +51,7 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
 
 
     return (
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style={{ zIndex: "0"}}>
             <div class="carousel-inner">
                 {
                     movies.map((movie, id) => {
