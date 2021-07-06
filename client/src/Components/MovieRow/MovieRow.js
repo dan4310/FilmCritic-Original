@@ -22,7 +22,7 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
 
     if (path === "poster_path") {
         return (
-            <div className="category-row ms-4 mt-2">
+            <div className="category-row ms-4 mt-2 pe-2">
                 <h2 className="category-text">{category}</h2>
                 <div className="poster-row">
                     
@@ -98,23 +98,3 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
 }
 
 export default MovieRow;
-
-/*
-<div className="category-row-lg">
-
-                <div className="poster-row-lg">
-                    
-                {movies.length > 0 &&
-                    movies.map((movie, id) => {
-                        if (movie[path]){
-                            return (<div className="poster-lg">
-                                <h1 className="movie-title">{movie.title}</h1>
-                                <img key={id} className="poster-img-lg" src={IMG_API + movie[path]} alt={movie.title} />
-                            </div>)
-                        }
-                        
-                    })
-                }</div>
-        </div> 
-
-*/

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Container = ({ children, style, topBorder, variant, outline }) => {
+const Container = ({ children, style, topBorder, variant, backgroundColor, className }) => {
 
     const shadowStyle = (variant) => {
         switch (variant) {
@@ -13,20 +13,19 @@ const Container = ({ children, style, topBorder, variant, outline }) => {
         }
     }
 
-    const borderStyle = (outline) => {
-        switch (outline) {
-            case 'white':
-                return '2px solid white';
+    const backgroundStyle = (backgroundColor) => {
+        switch (backgroundColor) {
+            case 'primary':
+                return 'rgba(225, 202, 240, 1)';
             default:
-                return '';
+                return 'rgba(80, 80, 100, 1)';
         }
     }
 
     return (
-        <div className="container-fluid py-2" style={{
-            backgroundColor: 'rgba(80, 80, 100, 1)',
+        <div className={"container-fluid py-2" + " " + className} style={{
+            backgroundColor: backgroundStyle(backgroundColor),
             borderTop: topBorder && '4px solid rgba(225, 202, 240, 1)',
-            border: borderStyle(outline),
             boxShadow: shadowStyle(variant),
             borderRadius: '3px',
             ...style,

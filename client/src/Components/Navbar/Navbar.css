@@ -91,7 +91,7 @@ button::after {
 }
 .btn-login:hover {
   border-color: white;
-  box-shadow: 4px 4px rgba(29, 29, 35, 1);
+  box-shadow: 4px 4px black;
 }
 
 .btn-large {
@@ -107,7 +107,7 @@ button::after {
 }
 .btn-large:hover {
   background: rgba(225, 202, 240, 1);
-  box-shadow: 4px 4px rgba(29, 29, 35, 1);
+  box-shadow: 4px 4px black;
 }
 
 .btn-small {

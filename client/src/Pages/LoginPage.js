@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Axios from 'axios';
+import Container from '../Components/Container/Container';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
-    setIsLoggedIn,
-    setFirstName,
-    setLastName,
-    setUsername as setGlobalUsername,
-    setPassword,
-    setEmail,
     setUser
  } from './../features/authentication/authSlice';
 
@@ -47,12 +42,8 @@ const LoginPage = () => {
                 }}>Login</h1>
                 
 
-                <form className="container-fluid py-3" style={{
-                    backgroundColor: 'rgba(80, 80, 100, 1)',
-                    borderTop: '4px solid rgba(225, 202, 240, 1)',
-                    boxShadow: '10px 10px 20px black',
-                    borderRadius: '3px',
-                }}>
+                <form>
+                <Container topBorder variant="shadow">
                 <div className="mb-3">
                     <label htmlFor="exampleInputUsername1" className="form-label">Username *</label>
                     <input type="username" className="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp"
@@ -74,9 +65,10 @@ const LoginPage = () => {
                 <button type="button" className="btn-login draw meet"
                     onClick={login}
                 >Login</button>
+                </Container>
                 </form>
 
-                <label className="form-label ms-2 mt-2">Don't have an account? Become a critic <Link to="/register"
+                <label className="form-label mt-4">Don't have an account? Become a critic <Link to="/register"
                     style={{
                         textDecoration: 'none',
                         color: "rgba(225, 202, 240, 1)",

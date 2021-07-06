@@ -53,7 +53,9 @@ const Navbar = () => {
           
           
           
-         
+            <button className="btn-small draw meet mx-1 mx-md-0">
+              <i className="fa fa-ticket nav-icon" aria-hidden="true"></i>
+            </button> 
           { !isLoggedIn ?
             <>
               <Link to="/register" style={{
@@ -72,9 +74,7 @@ const Navbar = () => {
               </Link></>
             :
             <>
-            <button className="btn-small draw meet mx-1 mx-md-0">
-              <i className="fa fa-ticket nav-icon" aria-hidden="true"></i>
-            </button> 
+            
             <Link to="/profile" className="navbar-brand me-0 ms-0">
               <button className="btn-large draw meet">
                 <div className="username">{user.firstName || user.username}</div>

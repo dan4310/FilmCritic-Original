@@ -8,7 +8,7 @@ const HomePage = () => {
             background: 'rgba(29, 29, 35, 1)',
             
             }}>
-          <MovieRow backdrop fetchUrl={requests.fetchPopular.url} category="Trending"/>
+          <MovieRow backdrop fetchUrl={requests.homepageRequests.fetchPopular.url} category="Trending"/>
   
             <div className="movies-container" style={{
               position: 'relative',
@@ -16,10 +16,10 @@ const HomePage = () => {
             }}>
   
               {
-                Object.keys(requests).map((req, id) => {
+                Object.keys(requests.homepageRequests).map((req, id) => {
                   return (
                     <div className={id !== 0 ? "movie-row" : "movie-row-1"}>
-                      <MovieRow key={id} fetchUrl={requests[req].url} category={requests[req].name}/>
+                      <MovieRow key={id} fetchUrl={requests.homepageRequests[req].url} category={requests.homepageRequests[req].name}/>
                     </div>
                   )
                 })
