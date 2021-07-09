@@ -4,8 +4,11 @@ import Axios from 'axios';
 import Container from '../Components/Container/Container';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
-    setUser
+    setUser,
+    getLogin,
  } from './../features/authentication/authSlice';
+import user from '../api/user';
+import { bindActionCreators } from 'redux';
 
 const LoginPage = () => {
     const history = useHistory();
@@ -14,7 +17,8 @@ const LoginPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+     
+    /*
     const login = () => {
         Axios.post("http://localhost:3001/login", {
             username: username,
@@ -28,7 +32,16 @@ const LoginPage = () => {
             }
         });
     };
+    */
 
+    const login = () => {
+        dispatch(getLogin({username: username, password: password})).then((res) => {
+            if (res.type === "user/getLogin/fulfilled") {
+                history.push("/");
+            }
+        });
+    }
+    
     return (
         <div className="container-fluid px-0" style={{
             background: 'rgba(29, 29, 35, 1)',
