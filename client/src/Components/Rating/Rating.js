@@ -6,7 +6,6 @@ const Rating = ({ style, children, score, variant, size, className }) => {
         borderRadius: '50%',
         background: 'rgba(80, 80, 100, 1)',
         boxShadow: '-2px -2px rgba(225, 202, 240, 1)',
-        background: 'rgba(80, 80, 100, 1)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
@@ -54,7 +53,7 @@ const Rating = ({ style, children, score, variant, size, className }) => {
     }
 
     return (
-        <div className={"rating-container" + " " + className} style={{
+        <div className={"rating-container " + className} style={{
             color: ratingColor(score),
             ...baseStyles,
             ...sizeStyles(size),

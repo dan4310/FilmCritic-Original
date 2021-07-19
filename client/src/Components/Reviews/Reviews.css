@@ -1,0 +1,7 @@
+.like-button {
+  color: rgba(29, 29, 35, 1);
+}
+
+.like-button:hover {
+  color: white;
+}

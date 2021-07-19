@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import "./Navbar.css";
 
 const Navbar = () => {
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
     const user = useSelector((state) => state.auth.user);
-    const dispatch = useDispatch();
-
     const [navbar, setNavbar] = useState(false);
 
     const changeNavbar = () => {
@@ -77,7 +75,7 @@ const Navbar = () => {
             
             <Link to="/profile" className="navbar-brand me-0 ms-0">
               <button className="btn-large draw meet">
-                <div className="username">{user.firstName || user.username}</div>
+                <div className="username">{user?.firstName || user?.username}</div>
               </button>
             </Link></>
           }

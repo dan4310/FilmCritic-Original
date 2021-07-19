@@ -23,13 +23,14 @@ const Container = ({ children, style, topBorder, variant, backgroundColor, class
     }
 
     return (
-        <div className={"container-fluid py-2" + " " + className} style={{
+        <div className={"container-fluid py-2 " + className} style={{
             backgroundColor: backgroundStyle(backgroundColor),
             borderTop: topBorder && '4px solid rgba(225, 202, 240, 1)',
             boxShadow: shadowStyle(variant),
             borderRadius: '3px',
             ...style,
-        }}>
+        }}
+        >
             {children}
         </div>
     )

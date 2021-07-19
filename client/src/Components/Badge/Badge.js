@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Badge = ({ key, children, className, styles }) => {
+const Badge = ({ children, className, styles }) => {
 
     return (
         <div className={className} style={{

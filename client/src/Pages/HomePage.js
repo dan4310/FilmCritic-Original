@@ -3,6 +3,7 @@ import MovieRow  from '../Components/MovieRow/MovieRow';
 import requests from '../Constants/Requests';
 
 const HomePage = () => {
+  
     return (<>
         <div style={{
             background: 'rgba(29, 29, 35, 1)',
@@ -18,8 +19,8 @@ const HomePage = () => {
               {
                 Object.keys(requests.homepageRequests).map((req, id) => {
                   return (
-                    <div className={id !== 0 ? "movie-row" : "movie-row-1"}>
-                      <MovieRow key={id} fetchUrl={requests.homepageRequests[req].url} category={requests.homepageRequests[req].name}/>
+                    <div key={req} className={id !== 0 ? "movie-row" : "movie-row-1"}>
+                      <MovieRow fetchUrl={requests.homepageRequests[req].url} category={requests.homepageRequests[req].name}/>
                     </div>
                   )
                 })

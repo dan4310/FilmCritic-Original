@@ -4,14 +4,39 @@ import Container from '../Components/Container/Container';
 import Rating from '../Components/Rating/Rating';
 import Badge from '../Components/Badge/Badge';
 import ReviewForm from '../Components/ReviewForm/ReviewForm';
+import Reviews from '../Components/Reviews/Reviews';
+import './MoviePage.css';
+
+import { useQuery } from '@apollo/client';
+import { GET_MOVIE_REVIEWS } from '../Graphql/Queries';
+
+import { setReviews } from '../features/movie/movieSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 const IMG_API = "https://image.tmdb.org/t/p/w1280";
 
 const MoviePage = (props) => {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.user);
+    const reviews = useSelector((state) => state.movie.reviews);
+
+    const hasAlreadyReviewd = () => {
+        var temp = reviews.map(review => {
+            return review.author.id;
+        });
+
+        return temp.includes(user.id);
+    }
+
     const [movie, setMovie] = useState({});
+
     var tempUrl = props.location.pathname;
     tempUrl = tempUrl.slice(7,tempUrl.length);
 
     const movieId = tempUrl.slice(0, tempUrl.indexOf('/'));
+    const {data: reviewsData, refetch: refetchReviews } = useQuery(GET_MOVIE_REVIEWS, {
+        variables: {movieId: parseInt(movieId)}
+    });
 
     useEffect(() => {
         const movieUrl = requests.moviepageRequests.fetchMovie(movieId).url;
@@ -19,16 +44,23 @@ const MoviePage = (props) => {
         .then(data => {
             if (data.status_message) {
                 return;
-            }
+            }   
             setMovie(data);
         });
-      }, [])
+        refetchReviews();
+    }, [])
+   
+    useEffect(() => {
+        if (reviewsData) {
+            dispatch(setReviews(reviewsData.reviewsById));
+        }
+    }, [reviewsData, dispatch])
 
-      var formatter = new Intl.NumberFormat('en-US', {
+    var formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
       
-      });
+    });
 
     const movieNotFound = () => {
         return (
@@ -39,7 +71,6 @@ const MoviePage = (props) => {
     }
 
     const movieInfo = () => {
-        console.log(movie);
         return (
             <div className="container-fluid px-0" style={{
             background: 'rgba(29, 29, 35, 1)',
@@ -48,7 +79,7 @@ const MoviePage = (props) => {
         }}>
             <div className="container-fluid px-4">
                 <div className="row">
-                    <div className="img-container col-3 d-flex flex-column">
+                    <div className="img-container col-12 order-2 order-sm-1 col-sm-3 d-flex flex-column">
                         <div className="mb-4">
                             <img key={movie.id} src={IMG_API + movie.poster_path} alt={movie.title} 
                                 style={{
@@ -63,11 +94,12 @@ const MoviePage = (props) => {
                                 fontWeight: '500',
                                 textShadow: '2px 2px black',
                             }}>Production Companies</h1>
-                        <Container>
+                        <Container variant="shadow">
                             {
-                                movie.production_companies.map((company, id) => {
+                                movie.production_companies.map((company) => {
                                     return (
-                                        <span className="" style={{
+                                        <span key={company.id}
+                                            className="" style={{
                                             display: 'flex',
                                             alignItems: 'center',
                                             color: 'rgba(29, 29, 35, 1)',
@@ -81,7 +113,7 @@ const MoviePage = (props) => {
                     
                     </div>
 
-                    <div className="col">
+                    <div className="col order-1 order-sm-2">
                         <div className="pb-3 row">
                             <div className="col-12 d-flex flex-column">
                                 <h1 style={{
@@ -98,18 +130,18 @@ const MoviePage = (props) => {
                                 }
                             </div>
 
-                            <div className="col-12 d-flex flex-row py-2">
+                            <div className="col-12 d-flex flex-row py-2 gap-3 genres">
                                 {
                                     movie.genres.map((genre, id) => {
                                         return (
-                                            <Badge className="me-3" key={id}>{genre.name}</Badge>
+                                            <Badge key={id}>{genre.name}</Badge>
                                         )
                                     })
                                 }
                             </div>
                             
                             <div className="col my-3">
-                                <Container className="d-flex align-items-center justify-content-between">
+                                <Container variant="shadow" className="d-flex align-items-center justify-content-between">
                                     <Rating className="" size="large" score={movie.vote_average}
                                         style={{
                                             backgroundColor: 'rgba(225, 202, 240, 1)',
@@ -145,11 +177,10 @@ const MoviePage = (props) => {
                             
                         </div>
                         { movie.overview &&
-                             <Container>
+                             <Container variant="shadow">
                                 <span className="py-1" style={{
                                     display: 'flex',
                                     alignItems: 'center',
-                                    color: 'white',
                                     color: 'white',
                                     fontSize: '25px',
                                     fontWeight: '500',
@@ -167,8 +198,15 @@ const MoviePage = (props) => {
                             </Container>
                         }
 
-                        <ReviewForm className="mt-4"></ReviewForm>
-                                               
+                        { !hasAlreadyReviewd() &&
+                            <ReviewForm className="my-4" movieId={movie.id}></ReviewForm>
+                        }
+                        
+                        
+                        { reviews.length > 0 &&
+                            <Reviews className="mt-3" reviews={reviews}/> 
+                        }
+                         
                     </div>
                     
                 </div>

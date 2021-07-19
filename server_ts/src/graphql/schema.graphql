@@ -1,0 +1,51 @@
+type User {
+    id: String!
+    username: String!
+    firstName: String
+    lastName: String
+    email: String!
+    password: String!
+    created: String
+    reviews: [Review]
+    likedReviews: [Like]
+}
+
+type Like {
+    id: String!
+    review: Review
+    user: User
+    created: String
+}
+
+type Review {
+    id: String!
+    description: String!
+    rating: Float!
+    movieId: Int!
+    created: String
+    author: User
+    likes: [Like]
+}
+
+type Query {
+    hello(name: String): String!
+    users: [User]
+    user(id: String!): User
+    reviews: [Review]
+    reviewsById(movieId: Int): [Review]
+    likes: [Like]
+    login(username: String!, password: String!): User
+}
+
+type Mutation {
+    register(email: String!, password: String!, username: String!, firstName: String, lastName: String, created: String): User
+    createReview(
+        description: String!,
+        rating: Float!,
+        movieId: Int!,
+        created: String,
+        authorId: String!,
+    ): Review
+    likePost(userId: String!, reviewId: String!): Like
+    deleteLike(userId: String!, reviewId: String!): Like
+}

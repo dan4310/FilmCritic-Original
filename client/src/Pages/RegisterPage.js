@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import Axios from 'axios';
 import './RegisterPage.css'
 import { 
-    setUser
- } from './../features/authentication/authSlice'
+    setUser,
+ } from './../features/authentication/authSlice';
+import { useMutation } from '@apollo/client';
+import { CREATE_USER } from '../Graphql/Mutations';
 import { useHistory } from 'react-router-dom';
 
+
 const RegisterPage = () => {
+    const [getRegister, { error: userError, loading: userLoading, data: userData }] = useMutation(CREATE_USER);
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -18,34 +21,67 @@ const RegisterPage = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
 
-    const register = () => {
-        if (password === confirmPassword && password.length > 0) {
-            if (username.length > 0) {
-                Axios.post('http://localhost:3001/register', {
-                    username: username,
-                    password: password,
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    created: new Date().toISOString().slice(0, 19).replace('T', ' ')
-                }).then((response, err) => {
-                    if (response.data.success === false) {
-                        console.log(response.data.message);
-                    } else {
-                        console.log(response.data.user);
-                        dispatch(setUser(response.data.user));
-                        history.push("/");
-                    }
-                });
-            } else {
-                console.log("Must enter a username!");
-            }
-            
-        } else {
-            console.log("Passwords do not match!");
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const validUserSetUp = () => {
+        if (username.length <= 0) {
+            return {success: false, message: "Must enter a username"};
+        } else if (password.length <= 0) {
+            return {success: false, message: "Must enter a password"};
+        } else if (password !== confirmPassword) {
+            return {success: false, message: "Passwords must match"};
         }
-        
+
+        return {success: true, message: "Welcome to the Critics Club!"};
+    }
+
+    const register = async () => {
+        var temp = validUserSetUp();
+        if (temp.success === true) {
+            await getRegister({ variables: {
+                username: username,
+                password: password,
+                email: email,
+                firstName: firstName,
+                lastName: lastName
+            }});
+            
+        }
+        showError(temp.message);
     };
+
+    useEffect(() => {
+        if (userLoading) showError("Loading...");
+    }, [userLoading]);
+
+    useEffect(() => {
+        if (userError) showError(userError.message);
+    }, [userError]);
+
+    useEffect(() => {
+        if (userData?.register) {
+            dispatch(setUser(userData.register));
+            history.push("/");
+        }
+    }, [userData, dispatch, history]);
+
+    function showError(message) {
+        setErrorMessage(message);
+
+        setTimeout(() => {
+            setErrorMessage('');
+        }, 3000);
+    }
+
+    const renderErrorMesage = (message) => {
+        if (message.length <= 0) return;
+
+        return (
+            <span className="mt-0" style={{
+                color: 'white'
+            }}>{message}</span>
+        )
+    }
 
     return (
         <div className="container-fluid px-0" style={{
@@ -58,6 +94,11 @@ const RegisterPage = () => {
                     fontSize: '48px',
                     textShadow: '4px 4px rgba(80, 80, 100, 1)',
                 }}>Create an account</h1>
+
+                <div>
+                    {renderErrorMesage(errorMessage)}
+                </div>
+
                 <form className="container-fluid py-3" style={{
                     backgroundColor: 'rgba(80, 80, 100, 1)',
                     borderTop: '4px solid rgba(225, 202, 240, 1)',

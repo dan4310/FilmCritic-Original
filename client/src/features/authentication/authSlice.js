@@ -1,34 +1,11 @@
-import axios from 'axios';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
-export const getLogin = createAsyncThunk('user/getLogin', async ({ username, password}) => {
-    return await axios.post("http://localhost:3001/login", {
-              username: username,
-              password: password,
-          }).then((response) => {
-              if (response.data.message) {
-                  console.log(response.data.message);
-                  return null;
-              } else {
-                  return response.data;
-              }
-          });
-  })
+import { createSlice, current } from '@reduxjs/toolkit';
 
 export const authSlice = createSlice({
     name: 'user',
     initialState: {
         isLoggedIn: false,
-        user: {
-            id: -1,
-            firstName: '',
-            lastName: '',
-            username: '',
-            password: '',
-            email: '',
-            created: '',
-        }
-
+        user: {},
+        userLikes: []
     },
     reducers: {
         setIsLoggedIn: (state, action) => {
@@ -56,19 +33,29 @@ export const authSlice = createSlice({
                 state.isLoggedIn = true;
                 state.user = action.payload;
             }
+        },
+        addUserLike: (state, action) => {
+            state.userLikes.push(action.payload);
+        },
+        removeUserLike: (state, action) => {
+            var delIndex = -1;
+            const tempLikes = current(state).userLikes.map((like, indx) => {
+                if (like.likerId === action.payload.likerId && like.reviewId === action.payload.reviewId) {
+                    delIndex = indx;
+                }
+                return like;
+            });
+            if (delIndex > -1) {
+                tempLikes.splice(delIndex, 1);
+            }
+            state.userLikes = tempLikes;
         }
     },
     extraReducers: {
-        [getLogin.fulfilled]: (state, action) => {
-            if (action.payload) {
-                state.user = action.payload;
-                state.isLoggedIn = true;
-            }
-        }
     }
 });
 
-export const { setIsLoggedIn, setUser, setFirstName, setLastName, setPassword, setUsername, setEmail } = authSlice.actions;
+export const { setIsLoggedIn, setUser, setFirstName, setLastName, setPassword, setUsername, setEmail, addUserLike, removeUserLike } = authSlice.actions;
 
 
 

@@ -1,0 +1,8 @@
+.genres {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.genres::-webkit-scrollbar {
+  display: none;
+}

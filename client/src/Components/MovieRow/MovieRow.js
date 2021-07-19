@@ -7,7 +7,7 @@ import './MovieRow.css';
 
 const IMG_API = "https://image.tmdb.org/t/p/w1280";
 
-const MovieRow = ({category, fetchUrl, backdrop, style }) => {
+const MovieRow = ({ category, fetchUrl, backdrop, style }) => {
 
     const [movies, setMovies] = useState([]);
 
@@ -22,14 +22,14 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
 
     if (path === "poster_path") {
         return (
-            <div className="category-row ms-4 mt-2 pe-2">
+            <div className="category-row ms-4 mt-2 pe-2" style={style}>
                 <h2 className="category-text">{category}</h2>
                 <div className="poster-row">
                     
                 {movies.length > 0 &&
                     movies.map((movie, id) => {
                         if (movie[path]){
-                            return (<Link to={{
+                            return (<Link key={movie.id} to={{
                                 pathname: '/movie/'+movie.id+'/'+movie.title,
                             }}>
                             <div className="poster">
@@ -42,7 +42,7 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
                             </div>
                             </Link>)
                         }
-                        
+                        return (<div key={movie.id}></div>);
                     })
                 }</div>
             </div> 
@@ -51,16 +51,16 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
 
 
     return (
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style={{ zIndex: "0"}}>
-            <div class="carousel-inner">
+        <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel" style={{ zIndex: "0", ...style}}>
+            <div className="carousel-inner">
                 {
                     movies.map((movie, id) => {
                         if (movie[path]){
                             return (
-                                <div className={(id == 0) ? "carousel-item active" : "carousel-item"} alt={movie.title}>
+                                <div key={movie.id} className={(id === 0) ? "carousel-item active" : "carousel-item"} alt={movie.title}>
                                    <div className="poster-lg">
-                                       <div class="movie-info-container">
-                                            <div class="movie-title-container">
+                                       <div className="movie-info-container">
+                                            <div className="movie-title-container">
                                                 <h1 className="movie-title">{movie.title}</h1>
                                             </div>
                                             <div className="movie-desc-container pt-3">
@@ -75,19 +75,19 @@ const MovieRow = ({category, fetchUrl, backdrop, style }) => {
                                 </div>
                             )
                         }
-                        
+                        return <div key={movie.id}></div>
                     })
                 }
             </div>
             
             <div className="d-flex flex-direction-row justify-space-between">
-                <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
+                <button className="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
+                <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Next</span>
                 </button>
             </div>
             

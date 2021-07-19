@@ -1,46 +1,68 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import Axios from 'axios';
 import Container from '../Components/Container/Container';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { 
     setUser,
-    getLogin,
  } from './../features/authentication/authSlice';
-import user from '../api/user';
-import { bindActionCreators } from 'redux';
+import { useLazyQuery } from '@apollo/client';
+import { GET_USER_LOGIN } from '../Graphql/Queries';
 
-const LoginPage = () => {
+const LoginPage = (props) => {
+    const [getLogin, {loading: loginLoading, error: loginError, data: loginData }] = useLazyQuery(GET_USER_LOGIN);
     const history = useHistory();
-    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
     const dispatch = useDispatch();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-     
-    /*
-    const login = () => {
-        Axios.post("http://localhost:3001/login", {
-            username: username,
-            password: password,
-        }).then((response) => {
-            if (response.data.message) {
-                console.log(response.data.message);
-            } else {
-                dispatch(setUser(response.data));
-                history.push("/");
-            }
-        });
-    };
-    */
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const login = () => {
-        dispatch(getLogin({username: username, password: password})).then((res) => {
-            if (res.type === "user/getLogin/fulfilled") {
-                history.push("/");
-            }
-        });
+    const showErrorMessage = (message) => {
+        setErrorMessage(message);
+
+        setTimeout(() => {
+            setErrorMessage('');
+        }, 3000);
     }
+     
+    const renderErrorMessage = (message) => {
+        return(
+            <span style={{
+                color: 'white',
+                textTransform: 'initial'
+            }}>{message}</span>
+        )
+    }
+
+
+    
+    const login = () => {
+        if (username.length > 0 && password.length > 0) {
+            getLogin({
+                variables: {
+                    username: username,
+                    password: password,
+                }
+            });
+        } else {
+            showErrorMessage("Must enter a username and password");
+        }
+    }
+
+    useEffect(() => {
+        if (loginLoading) showErrorMessage("Loading...");
+    }, [loginLoading]);
+    useEffect(() => {
+        if (loginError) showErrorMessage(loginError.message);
+    }, [loginError]);
+
+    useEffect(() => {
+        if (loginData?.login) {
+            showErrorMessage("Welcome "+loginData.login.username);
+            dispatch(setUser(loginData.login));
+            history.push("/");
+        }
+    }, [loginData, dispatch, history]);
     
     return (
         <div className="container-fluid px-0" style={{
@@ -53,6 +75,10 @@ const LoginPage = () => {
                     fontSize: '48px',
                     textShadow: '4px 4px rgba(80, 80, 100, 1)',
                 }}>Login</h1>
+
+                <div>
+                    {renderErrorMessage(errorMessage)}
+                </div>
                 
 
                 <form>
